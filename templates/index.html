@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FAQ Assistant</title>
+    <!-- Bootstrap CDN -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+  <body class="bg-gray-100">
+    <div class="absolute top-4 right-4">
+      <a
+        href="admin"
+        class="bg-red-600 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-red-700 transition duration-200"
+      >
+        Admin Panel
+      </a>
+    </div>
+    <!-- Chat Container -->
+    <div class="flex justify-center items-center min-h-screen">
+      <div class="w-full max-w-xl bg-white p-6 rounded-lg shadow-xl">
+        <h1 class="text-3xl font-semibold text-center text-gray-800 mb-4">
+          FAQ Assistant
+        </h1>
+
+        <!-- Chatbox -->
+        <div
+          id="chatbox"
+          class="h-96 overflow-y-auto mb-4 border border-gray-300 rounded-lg p-4 bg-gray-50 space-y-4"
+        >
+          <!-- Chat messages will appear here -->
+        </div>
+
+        <!-- User Input -->
+        <div class="flex">
+          <input
+            type="text"
+            id="query"
+            class="w-full p-3 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Ask a question..."
+          />
+          <button
+            onclick="askQuestion()"
+            class="bg-blue-600 text-white py-3 px-6 rounded-r-lg hover:bg-blue-700 transition duration-200"
+          >
+            Ask
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+
+    <script>
+      // Function to append user and assistant messages
+      function appendMessage(content, type) {
+        const chatbox = document.getElementById("chatbox");
+        const messageDiv = document.createElement("div");
+        messageDiv.classList.add(
+          "flex",
+          "space-x-2",
+          type === "user" ? "justify-end" : "justify-start"
+        );
+
+        const bubble = document.createElement("div");
+        bubble.classList.add(
+          "max-w-xs",
+          "p-3",
+          "rounded-lg",
+          "bg-blue-100",
+          "text-gray-800",
+          "border",
+          "border-gray-300"
+        );
+        if (type === "user") {
+          bubble.classList.add("bg-blue-600", "text-white");
+        }
+
+        bubble.textContent = content; // No loading or spinner, just the content
+        messageDiv.appendChild(bubble);
+        chatbox.appendChild(messageDiv);
+        chatbox.scrollTop = chatbox.scrollHeight; // Auto-scroll to the bottom
+      }
+
+      async function askQuestion() {
+        const query = document.getElementById("query").value;
+        if (!query.trim()) return; // Don't send if input is empty
+
+        // Append user message
+        appendMessage(query, "user");
+        document.getElementById("query").value = ""; // Clear input
+
+        let res;
+        try {
+          res = await fetch("/ask", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ query }),
+          });
+        } catch (error) {
+          // Handle error if fetch fails
+          res = null;
+        }
+
+        let data = res ? await res.json() : null;
+
+        // Update with assistant's response or error message
+        const responseText =
+          data && data.response
+            ? data.response
+            : "Sorry, I couldn't find an answer.";
+        appendMessage(responseText, "assistant");
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Tailwind CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
+      table {
+        margin-top: 20px;
+      }
+    </style>
+    <script>
+      async function updateKnowledgeBase() {
+        let response = await fetch("/admin/update_kb", { method: "POST" });
+        let data = await response.json();
+        alert(data.message);
+      }
+
+      async function fetchLogs() {
+        let response = await fetch("/admin/view_logs");
+        let logs = await response.json();
+        let logsContainer = document.getElementById("logs");
+
+        // Clear previous content
+        logsContainer.innerHTML = "";
+
+        // Create a table element
+        let table = document.createElement("table");
+        table.className = "table table-striped";
+
+        // Create table header
+        let thead = document.createElement("thead");
+        let headerRow = document.createElement("tr");
+        let headers = ["Query", "Response", "Timestamp"];
+        headers.forEach((headerText) => {
+          let th = document.createElement("th");
+          th.textContent = headerText;
+          th.className = "text-center";
+          headerRow.appendChild(th);
+        });
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+
+        // Create table body
+        let tbody = document.createElement("tbody");
+        logs.forEach((log) => {
+          let row = document.createElement("tr");
+          let queryCell = document.createElement("td");
+          queryCell.textContent = log.query;
+          row.appendChild(queryCell);
+
+          let responseCell = document.createElement("td");
+          responseCell.textContent = log.response;
+          row.appendChild(responseCell);
+
+          let timestampCell = document.createElement("td");
+          timestampCell.textContent = new Date(log.timestamp).toLocaleString();
+          row.appendChild(timestampCell);
+
+          tbody.appendChild(row);
+        });
+        table.appendChild(tbody);
+
+        // Append the table to the logs container
+        logsContainer.appendChild(table);
+      }
+    </script>
+  </head>
+  <body class="container mx-auto p-4">
+    <h1 class="text-3xl font-bold mb-4">Admin Panel</h1>
+    <button onclick="updateKnowledgeBase()" class="btn btn-primary mb-4">
+      Update Knowledge Base
+    </button>
+    <h2 class="text-2xl font-semibold mb-2">Logs</h2>
+    <button onclick="fetchLogs()" class="btn btn-secondary mb-4">
+      View Logs
+    </button>
+    <div id="logs"></div>
+
+    <div class="absolute top-4 right-4">
+      <a
+        href="/"
+        class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-blue-700 transition duration-200"
+      >
+        Back to FAQ Assistant
+      </a>
+    </div>
+  </body>
+</html>

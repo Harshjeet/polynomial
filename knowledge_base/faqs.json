@@ -1,0 +1,61 @@
+[
+  {
+    "question": "Is remote work allowed?",
+    "answer": "Employees may work remotely up to two days per week, subject to manager approval.",
+    "context": "Company Policies"
+  },
+
+  {
+    "question": "How many vacation days do employees get?",
+    "answer": "Employees receive 15 paid vacation days per year.",
+    "context": "Company Policies"
+  },
+  {
+    "question": "How to factory reset?",
+    "answer": "Go to 'Settings' > 'Reset' > 'Factory Reset' and confirm your selection.",
+    "context": "Product Documentation"
+  },
+
+  {
+    "question": "What is the dress code policy?",
+    "answer": "The company follows a business casual dress code.",
+    "context": "Company Policies"
+  },
+
+  {
+    "question": "What is the refund policy?",
+    "answer": "Refunds are available within 30 days of purchase with proof of receipt.",
+    "context": "Customer Service FAQs"
+  },
+  {
+    "question": "How to update the software?",
+    "answer": "Go to 'Settings' > 'Software Update' > Tap 'Check for Updates'.",
+    "context": "Product Documentation"
+  },
+
+  {
+    "question": "What are the working hours?",
+    "answer": "Employees are required to work 40 hours per week.",
+    "context": "Company Policies"
+  },
+  {
+    "question": "Can I change my shipping address?",
+    "answer": "Yes, shipping addresses can be updated before order processing by contacting support.",
+    "context": "Customer Service FAQs"
+  },
+  {
+    "question": "How to reset the device?",
+    "answer": "Hold the power button for 10 seconds until the device restarts.",
+    "context": "Product Documentation"
+  },
+  {
+    "question": "How can I contact support?",
+    "answer": "You can reach support via email at support@example.com or call 1-800-123-4567.",
+    "context": "Customer Service FAQs"
+  },
+  {
+    "question": "What is the battery life?",
+    "answer": "The device lasts up to 10 hours on a full charge.",
+    "context": "Product Documentation"
+  }
+]
